@@ -22,28 +22,59 @@ public class TheOddNumbers {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        HashSet<Integer> set=new HashSet(500000);
-        //int[] ia=new int[1000000];
+        
+        MyHashTable hashTable=new MyHashTable(900000);
         BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
         try {
             int n=Integer.parseInt(reader.readLine());
+            System.out.println(n);
             for (int i=0;i<n;i++) {
+                
                 int d=Integer.parseInt(reader.readLine());
-                if (set.contains(d)) {
-                    set.remove(d);
-                } else
-                    set.add(d);
-                //ia[d-1]=(ia[d-1]+1)%2;
-            }
-            System.out.println(set.toArray()[0]);
-            /*for (int i=0;i<1000000;i++) {
-                if (ia[i]==1) {
-                    System.out.println(i+1);
+                if (!hashTable.add(d)) {
+                    System.out.println("Hashtable full");
+                    return;
                 }
-            }*/
+            }
+            System.out.println(hashTable.getOdd());
         } catch (Exception e) {
-            System.out.println("IO error");
+            System.out.println(e.getStackTrace());
         }
     }
     
+}
+
+class MyHashTable {
+    int[] ia;
+    int capacity=0;
+    int size;
+    public MyHashTable(int psize) {
+        ia=new int[psize];
+        capacity=psize;
+    }
+    public boolean add(Integer key) {
+        if (size==capacity) return false;
+        Integer hash=key+1000000000;
+        int k=(hash.hashCode())%capacity;
+        
+        while (ia[k]!=key) {
+            if (ia[k]==0) {
+                ia[k]=key;
+                size++;
+                return true;
+            } 
+            k=(k+1)%capacity;
+        } 
+        
+        ia[k]=0;
+        size--;
+        return true;
+    }
+    public int getOdd() {
+        System.out.println(size);
+        for (int i=0;i<capacity;i++) {
+            if (ia[i]!=0) return ia[i];
+        }
+        return -1;
+    }
 }
