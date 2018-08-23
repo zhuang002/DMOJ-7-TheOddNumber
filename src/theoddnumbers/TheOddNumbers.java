@@ -27,16 +27,13 @@ public class TheOddNumbers {
         BufferedReader reader=new BufferedReader(new InputStreamReader(System.in));
         try {
             int n=Integer.parseInt(reader.readLine());
-            System.out.println(n);
-            for (int i=0;i<n;i++) {
+            int d=Integer.parseInt(reader.readLine());
+            for (int i=1;i<n;i++) {
                 
-                int d=Integer.parseInt(reader.readLine());
-                if (!hashTable.add(d)) {
-                    System.out.println("Hashtable full");
-                    return;
-                }
+                d^=Integer.parseInt(reader.readLine());
+                
             }
-            System.out.println(hashTable.getOdd());
+            System.out.println(d);
         } catch (Exception e) {
             System.out.println(e.getStackTrace());
         }
